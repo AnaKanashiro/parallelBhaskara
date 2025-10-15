@@ -3,7 +3,8 @@
 #include <cmath>
 #include <omp.h>
 #include <chrono>
-#include <random>
+#include <cstdlib> // rand(), srand()
+#include <ctime>   // time()
 
 int main()
 {
@@ -12,16 +13,17 @@ int main()
     std::cin >> N;
 
     std::vector<double> a(N), b(N), c(N);
+    srand(time(0)); // inicializa a semente com o tempo atual
 
-    std::random_device rd;
-    std::mt19937 gen(rd());                            // motor de números aleatórios
-    std::uniform_int_distribution<> dis(-10, 10); // intervalo [-10, 10] inteiro
+    int num = rand() % 21 - 10; // gera número entre -10 e 10
 
     // Preenche os coeficientes
     for (int i = 0; i < N; ++i)
     {
-        b[i] = dis(gen); // aleatório entre -10 e 10
-        c[i] = dis(gen); // aleatório entre -10 e 10
+        b[i] = rand() % 21 - 10;
+        ; // aleatório entre -10 e 10
+        c[i] = rand() % 21 - 10;
+        ; // aleatório entre -10 e 10
         if (i % 2 == 0)
         {
             a[i] = 1.0;
@@ -35,30 +37,39 @@ int main()
     double soma_total = 0.0;
 
     auto inicio = std::chrono::high_resolution_clock::now();
-
-#pragma omp parallel for
-    for (int i = 0; i < N; ++i)
-    {
+    
         double b2 = 0.0;
         double quatroac = 0.0;
         double dois_a = 0.0;
-        double delta = 0.0;
-        double x1 = 0.0, x2 = 0.0;
 
-        // Usando atomic para cálculo de cada componente
-#pragma omp atomic
+#pragma omp parallel
+{
+    // Fase 1: cada thread executa parte do for e atualiza os acumuladores com atomic
+    #pragma omp for
+    for (int i = 0; i < N; ++i)
+    {
+      
+        #pragma omp atomic
         b2 += b[i] * b[i];
 
-#pragma omp atomic
+        #pragma omp atomic
         quatroac += 4.0 * a[i] * c[i];
 
-#pragma omp atomic
+        #pragma omp atomic
         dois_a += 2.0 * a[i];
+    }
 
-        // Calcula delta
-        delta = b2 - quatroac;
+    // Espera que todas as atualizações atomic tenham ocorrido
+    #pragma omp barrier
 
-        if (delta >= 0)
+    // Fase 2: calcular delta e raízes usando os acumuladores finais (mesmos nomes)
+    #pragma omp for
+    for (int i = 0; i < N; ++i)
+    {
+        double delta = b2 - quatroac;
+        double x1 = 0.0, x2 = 0.0;
+
+        if (dois_a != 0.0 && delta >= 0.0)
         {
             x1 = (-b[i] + std::sqrt(delta)) / dois_a;
             x2 = (-b[i] - std::sqrt(delta)) / dois_a;
@@ -69,18 +80,16 @@ int main()
             x2 = 0.0;
         }
 
-        // Soma total e impressão usando critical
-#pragma omp critical
+        #pragma omp critical
         {
             soma_total += x1 + x2;
             std::cout << "Equação " << i + 1 << ": "
                       << a[i] << "x^2 + " << b[i] << "x + " << c[i] << " = 0"
                       << "\n  Raízes: x1=" << x1 << ", x2=" << x2
-                      << "\n" 
-                      << std::endl;
+                      << "\n" << std::endl;
         }
     }
-
+} // fim do parallel
     auto fim = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duracao = fim - inicio;
 
