@@ -34,9 +34,44 @@ int main()
         }
     }
 
-    double soma_total = 0.0;
+    std::cout << "------------------------Bhaskara Sequencial---------------------------\n";
+
+    double soma_totalSequencial = 0.0;
+    double T0S = omp_get_wtime(); // tempo inicial
+
+    for (int i = 0; i < N; ++i)
+    {
+        double b2 = b[i] * b[i];
+        double quatroac = 4.0 * a[i] * c[i];
+        double dois_a = 2.0 * a[i];
+        double delta = b2 - quatroac;
+        double x1 = 0.0, x2 = 0.0;
+
+        if (delta >= 0)
+        {
+            x1 = (-b[i] + std::sqrt(delta)) / dois_a;
+            x2 = (-b[i] - std::sqrt(delta)) / dois_a;
+        }
+
+        soma_totalSequencial += x1 + x2;
+
+        std::cout << "Equação " << i + 1 << ": "
+                  << a[i] << "x^2 + " << b[i] << "x + " << c[i] << " = 0"
+                  << "\n  Raízes: x1=" << x1 << ", x2=" << x2
+                  << "\n"
+                  << std::endl;
+    }
+
+    double T1S = omp_get_wtime();
+    double duracaoSequencial = T1S - T0S;
+
+    std::cout << "\nSoma total de todas as raízes: " << soma_totalSequencial << std::endl;
+    std::cout << "Tempo total: " << duracaoSequencial << " ms" << std::endl;
+    std::cout << "----------------------------------------\n";
 
     std::cout << "--------------------Bhaskara com Atomic e Critical--------------------\n";
+
+    double soma_total = 0.0;
 
     // Vetor para armazenar o tempo gasto por thread
     double T0 = omp_get_wtime(); // tempo inicial
@@ -249,9 +284,10 @@ int main()
 
     std::cout << "Método                                | Tempo (ms) | Speedup\n";
     std::cout << "--------------------------------------+------------+---------\n";
-    std::cout << "Atomic + Critical                     | " << std::setw(10) << duracao << " | " << std::setw(7) << 1.0 << "\n";
-    std::cout << "Atomic + Critical + Barrier           | " << std::setw(10) << duracaoBarrier << " | " << std::setw(7) << duracao / duracaoBarrier << "\n";
-    std::cout << "Atomic + Critical + Barrier + Ordered| " << std::setw(10) << duracaoOrdered << " | " << std::setw(7) << duracao / duracaoOrdered << "\n";
+    std::cout << "Sequencial                            | " << std::setw(10) << duracaoSequencial << " | " << std::setw(7) << duracaoSequencial / duracaoSequencial << "\n";
+    std::cout << "Atomic + Critical                     | " << std::setw(10) << duracao << " | " << std::setw(7) << duracaoSequencial / duracao << "\n";
+    std::cout << "Atomic + Critical + Barrier           | " << std::setw(10) << duracaoBarrier << " | " << std::setw(7) << duracaoSequencial / duracaoBarrier << "\n";
+    std::cout << "Atomic + Critical + Barrier + Ordered| " << std::setw(10) << duracaoOrdered << " | " << std::setw(7) << duracaoSequencial / duracaoOrdered << "\n";
     std::cout << "=====================================================================\n";
 
     return 0;
