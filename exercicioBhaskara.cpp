@@ -2,9 +2,7 @@
 #include <vector>
 #include <cmath>
 #include <omp.h>
-#include <chrono>
 #include <random>
-#include <iomanip>
 
 int main()
 {
