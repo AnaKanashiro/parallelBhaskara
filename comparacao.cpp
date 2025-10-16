@@ -255,10 +255,5 @@ int main()
     std::cout << "Atomic + Critical + Barrier + Ordered| " << std::setw(10) << duracaoOrdered << " | " << std::setw(7) << duracao / duracaoOrdered << "\n";
     std::cout << "=====================================================================\n";
 
-    std::cout << "\nObservações:\n";
-    std::cout << "- O método com 'Ordered' garante saída organizada, mas pode ser mais lento.\n";
-    std::cout << "- O uso de 'Barrier' melhora a separação entre cálculo e impressão.\n";
-    std::cout << "- O speedup mostra o ganho de desempenho relativo ao primeiro método.\n";
-
     return 0;
 }
