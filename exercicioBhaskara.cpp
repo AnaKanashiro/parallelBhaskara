@@ -4,6 +4,7 @@
 #include <omp.h>
 #include <chrono>
 #include <random>
+#include <iomanip>
 
 int main()
 {
@@ -13,15 +14,17 @@ int main()
 
     std::vector<double> a(N), b(N), c(N);
 
-    std::random_device rd;
-    std::mt19937 gen(rd());                            // motor de números aleatórios
-    std::uniform_int_distribution<> dis(-10, 10); // intervalo [-10, 10] inteiro
+    srand(time(0)); // inicializa a semente com o tempo atual
+
+    int num = rand() % 21 - 10; // gera número entre -10 e 10
 
     // Preenche os coeficientes
     for (int i = 0; i < N; ++i)
     {
-        b[i] = dis(gen); // aleatório entre -10 e 10
-        c[i] = dis(gen); // aleatório entre -10 e 10
+        b[i] = rand() % 21 - 10;
+        ; // aleatório entre -10 e 10
+        c[i] = rand() % 21 - 10;
+        ; // aleatório entre -10 e 10
         if (i % 2 == 0)
         {
             a[i] = 1.0;
@@ -33,6 +36,10 @@ int main()
     }
 
     double soma_total = 0.0;
+    
+    // Vetor para armazenar o tempo gasto por thread
+    double T0 = omp_get_wtime(); // tempo inicial
+    int threads_usadas = 0;
 
     auto inicio = std::chrono::high_resolution_clock::now();
 
@@ -55,6 +62,7 @@ int main()
 #pragma omp atomic
         dois_a += 2.0 * a[i];
 
+#pragma omp critical
         // Calcula delta
         delta = b2 - quatroac;
 
@@ -76,16 +84,16 @@ int main()
             std::cout << "Equação " << i + 1 << ": "
                       << a[i] << "x^2 + " << b[i] << "x + " << c[i] << " = 0"
                       << "\n  Raízes: x1=" << x1 << ", x2=" << x2
-                      << "\n" 
+                      << "\n"
                       << std::endl;
         }
     }
 
-    auto fim = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> duracao = fim - inicio;
+    double T1 = omp_get_wtime();
+    double duracao = T1 - T0;
 
     std::cout << "\nSoma total de todas as raízes: " << soma_total << std::endl;
-    std::cout << "Tempo total: " << duracao.count() << " ms" << std::endl;
+    std::cout << "Tempo total: " << duracao << " ms" << std::endl;
     std::cout << "----------------------------------------\n";
 
     return 0;
