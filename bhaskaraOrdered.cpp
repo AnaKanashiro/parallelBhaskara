@@ -40,63 +40,67 @@ int main()
     int threads_usadas = 0;
 
 #pragma omp parallel
-{
-    // Vetores locais para armazenar raízes
-    std::vector<double> local_x1(N), local_x2(N);
-
-    // Fase 1: cálculo das raízes
-    #pragma omp for
-    for (int i = 0; i < N; ++i)
     {
-        double b2 = 0.0;
-        double quatroac = 0.0;
-        double dois_a = 0.0;
-        double delta = 0.0;
+        // Vetores locais para armazenar raízes
+        std::vector<double> local_x1(N), local_x2(N);
 
-        // Usando atomic para cálculo de cada componente
-        #pragma omp atomic
-        b2 += b[i] * b[i];
-
-        #pragma omp atomic
-        quatroac += 4.0 * a[i] * c[i];
-
-        #pragma omp atomic
-        dois_a += 2.0 * a[i];
-
-        #pragma omp critical //uso de critical por ser uma area mais complexa
-        // Calcula delta
-        delta = b2 - quatroac;
-
-        if (delta >= 0)
+// Fase 1: cálculo das raízes
+#pragma omp for
+        for (int i = 0; i < N; ++i)
         {
-            local_x1[i] = (-b[i] + std::sqrt(delta)) / dois_a;
-            local_x2[i] = (-b[i] - std::sqrt(delta)) / dois_a;
+            double b2 = 0.0;
+            double quatroac = 0.0;
+            double dois_a = 0.0;
+            double delta = 0.0;
+
+// Usando atomic para cálculo de cada componente
+#pragma omp atomic
+            b2 += b[i] * b[i];
+
+#pragma omp atomic
+            quatroac += 4.0 * a[i] * c[i];
+
+#pragma omp atomic
+            dois_a += 2.0 * a[i];
+
+#pragma omp critical // uso de critical por ser uma area mais complexa
+            // Calcula delta
+            delta = b2 - quatroac;
+
+            if (delta >= 0)
+            {
+                local_x1[i] = (-b[i] + std::sqrt(delta)) / dois_a;
+                local_x2[i] = (-b[i] - std::sqrt(delta)) / dois_a;
+            }
+            else
+            {
+                local_x1[i] = 0.0;
+                local_x2[i] = 0.0;
+            }
         }
-        else
+
+// Sincroniza todas as threads antes de somar e imprimir
+#pragma omp barrier
+
+// Fase 2: soma e impressão
+#pragma omp for ordered
+        for (int i = 0; i < N; ++i)
         {
-            local_x1[i] = 0.0;
-            local_x2[i] = 0.0;
+#pragma omp ordered
+            {
+// Protege soma_total com critical
+#pragma omp critical
+                soma_total += local_x1[i] + local_x2[i];
+
+                // Impressão ordenada
+                std::cout << "Equação " << i + 1 << ": "
+                          << a[i] << "x^2 + " << b[i] << "x + " << c[i] << " = 0"
+                          << "\n  Raízes: x1=" << local_x1[i] << ", x2=" << local_x2[i]
+                          << "\n"
+                          << std::endl;
+            }
         }
     }
-
-    // Sincroniza todas as threads antes de somar e imprimir
-    #pragma omp barrier
-
-    // Fase 2: soma e impressão
-    #pragma omp for
-    for (int i = 0; i < N; ++i)
-    {
-        #pragma omp critical
-        {
-            soma_total += local_x1[i] + local_x2[i];
-            std::cout << "Equação " << i + 1 << ": "
-                      << a[i] << "x^2 + " << b[i] << "x + " << c[i] << " = 0"
-                      << "\n  Raízes: x1=" << local_x1[i] << ", x2=" << local_x2[i]
-                      << "\n"
-                      << std::endl;
-        }
-    }
-}
     double T1 = omp_get_wtime();
     double duracao = T1 - T0;
 
