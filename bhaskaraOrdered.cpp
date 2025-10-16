@@ -37,7 +37,6 @@ int main()
 
     // Vetor para armazenar o tempo gasto por thread
     double T0 = omp_get_wtime(); // tempo inicial
-    int threads_usadas = 0;
 
 #pragma omp parallel
     {
