@@ -38,8 +38,6 @@ int main()
     // Vetor para armazenar o tempo gasto por thread
     double T0 = omp_get_wtime(); // tempo inicial
 
-    auto inicio = std::chrono::high_resolution_clock::now();
-
 #pragma omp parallel for
     for (int i = 0; i < N; ++i)
     {
