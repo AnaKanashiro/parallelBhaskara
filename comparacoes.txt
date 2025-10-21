@@ -1,0 +1,153 @@
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 500
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   0.004378 | 1.000000
+Atomic + Critical                     |   0.065481 | 0.066860
+Atomic + Critical + Barrier           |   0.007646 | 0.572591
+Atomic + Critical + Barrier + Ordered |   0.004217 | 1.038220
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 1000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   0.008264 | 1.000000
+Atomic + Critical                     |   0.067533 | 0.122371
+Atomic + Critical + Barrier           |   0.030721 | 0.269004
+Atomic + Critical + Barrier + Ordered |   0.006868 | 1.203291
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 2000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   0.018014 | 1.000000
+Atomic + Critical                     |   0.044543 | 0.404422
+Atomic + Critical + Barrier           |   0.055113 | 0.326860
+Atomic + Critical + Barrier + Ordered |   0.016101 | 1.118833
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 3000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   0.038666 | 1.000000
+Atomic + Critical                     |   0.095721 | 0.403945
+Atomic + Critical + Barrier           |   0.073716 | 0.524526
+Atomic + Critical + Barrier + Ordered |   0.024397 | 1.584859
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 4000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   0.033097 | 1.000000
+Atomic + Critical                     |   0.099936 | 0.331180
+Atomic + Critical + Barrier           |   0.084368 | 0.392291
+Atomic + Critical + Barrier + Ordered |   0.054382 | 0.608600
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 5000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   0.040644 | 1.000000
+Atomic + Critical                     |   0.137003 | 0.296665
+Atomic + Critical + Barrier           |   0.098675 | 0.411897
+Atomic + Critical + Barrier + Ordered |   0.050720 | 0.801340
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 10000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   0.071556 | 1.000000
+Atomic + Critical                     |   0.252380 | 0.283524
+Atomic + Critical + Barrier           |   0.226667 | 0.315687
+Atomic + Critical + Barrier + Ordered |   0.100169 | 0.714352
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 15000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   0.127497 | 1.000000
+Atomic + Critical                     |   0.329813 | 0.386573
+Atomic + Critical + Barrier           |   0.374847 | 0.340131
+Atomic + Critical + Barrier + Ordered |   0.142495 | 0.894746
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 20000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   0.171257 | 1.000000
+Atomic + Critical                     |   0.460202 | 0.372134
+Atomic + Critical + Barrier           |   0.499225 | 0.343046
+Atomic + Critical + Barrier + Ordered |   0.175333 | 0.976753
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 50000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   0.370340 | 1.000000
+Atomic + Critical                     |   1.183651 | 0.312879
+Atomic + Critical + Barrier           |   1.268115 | 0.292040
+Atomic + Critical + Barrier + Ordered |   0.415649 | 0.890993
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 100000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   0.722208 | 1.000000
+Atomic + Critical                     |   2.279017 | 0.316894
+Atomic + Critical + Barrier           |   2.290983 | 0.315239
+Atomic + Critical + Barrier + Ordered |   0.851246 | 0.848413
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 500000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   3.412168 | 1.000000
+Atomic + Critical                     |  15.351308 | 0.222272
+Atomic + Critical + Barrier           |  11.582918 | 0.294586
+Atomic + Critical + Barrier + Ordered |   4.906133 | 0.695490
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 500000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   3.438727 | 1.000000
+Atomic + Critical                     |  10.437338 | 0.329464
+Atomic + Critical + Barrier           |  11.417502 | 0.301180
+Atomic + Critical + Barrier + Ordered |   4.667574 | 0.736727
+=====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 1000000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   6.829638 | 1.000000
+Atomic + Critical                     |  21.756752 | 0.313909
+Atomic + Critical + Barrier           |  24.949736 | 0.273736
+Atomic + Critical + Barrier + Ordered |   9.782836 | 0.698125
+=====================================================================

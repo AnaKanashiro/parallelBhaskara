@@ -287,7 +287,7 @@ int main()
     std::cout << "Sequencial                            | " << std::setw(10) << duracaoSequencial << " | " << std::setw(7) << duracaoSequencial / duracaoSequencial << "\n";
     std::cout << "Atomic + Critical                     | " << std::setw(10) << duracao << " | " << std::setw(7) << duracaoSequencial / duracao << "\n";
     std::cout << "Atomic + Critical + Barrier           | " << std::setw(10) << duracaoBarrier << " | " << std::setw(7) << duracaoSequencial / duracaoBarrier << "\n";
-    std::cout << "Atomic + Critical + Barrier + Ordered| " << std::setw(10) << duracaoOrdered << " | " << std::setw(7) << duracaoSequencial / duracaoOrdered << "\n";
+    std::cout << "Atomic + Critical + Barrier + Ordered | " << std::setw(10) << duracaoOrdered << " | " << std::setw(7) << duracaoSequencial / duracaoOrdered << "\n";
     std::cout << "=====================================================================\n";
 
     return 0;
