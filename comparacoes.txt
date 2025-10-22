@@ -151,3 +151,16 @@ Atomic + Critical                     |  21.756752 | 0.313909
 Atomic + Critical + Barrier           |  24.949736 | 0.273736
 Atomic + Critical + Barrier + Ordered |   9.782836 | 0.698125
 =====================================================================
+
+======================= RELATÓRIO COMPARATIVO =======================
+Número de equações resolvidas: 1000
+
+Método                                | Tempo (ms) | Speedup
+--------------------------------------+------------+---------
+Sequencial                            |   0.007218 | 1.000000
+Atomic + Critical                     |   0.043445 | 0.166138
+Atomic + Critical + Barrier           |   0.026994 | 0.267389
+Atomic + Critical + Barrier + Ordered |   0.012968 | 0.556589
+Soma total (com lock): 16        Tempo total: 0.0281942 ms
+Soma total (com lock x1 x2): -54       Tempo total: 0.0883369 ms
+=====================================================================
